@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>gov.va.api.health.fhir</groupId>
+    <artifactId>health-apis-fhir-bundler</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <artifactId>bundler</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <properties>
+    <health-apis-fhir-resources.version>2.0.14</health-apis-fhir-resources.version>
+    <service-auto-config.version>3.1.12</service-auto-config.version>
+    <generated-sources-base>${project.build.directory}/generated-sources</generated-sources-base>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>gov.va.api.health</groupId>
+      <artifactId>dstu2</artifactId>
+      <version>${health-apis-fhir-resources.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>gov.va.api.health</groupId>
+      <artifactId>stu3</artifactId>
+      <version>${health-apis-fhir-resources.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>gov.va.api.health</groupId>
+      <artifactId>r4</artifactId>
+      <version>${health-apis-fhir-resources.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>gov.va.api.health</groupId>
+      <artifactId>service-auto-config</artifactId>
+      <version>${service-auto-config.version}</version>
+    </dependency>
+    <!-- Test dependencies. -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>${assertj.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <!-- Generate stu3, r4 bundlers from dstu2 bundler. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-swf-files</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target name="copy java">
+                <!-- Generate stu3 bundler. -->
+                <copy todir="${generated-sources-base}/stu3" flatten="true" includeEmptyDirs="false">
+                  <fileset dir="${basedir}" includes="**/dstu2/"/>
+                </copy>
+                <replace dir="${generated-sources-base}/stu3" value="stu3">
+                  <include name="*.java"/>
+                  <replacetoken>dstu2</replacetoken>
+                </replace>
+                <!-- Generate r4 bundler. -->
+                <copy todir="${generated-sources-base}/r4" flatten="true" includeEmptyDirs="false">
+                  <fileset dir="${basedir}" includes="**/dstu2/"/>
+                </copy>
+                <replace dir="${generated-sources-base}/r4" value="r4">
+                  <include name="*.java"/>
+                  <replacetoken>dstu2</replacetoken>
+                </replace>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Compile generated sources. -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>${generated-sources-base}</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Create different resource jars: dstu2, stu3, r4. -->
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <!-- Since we are making a jar per resource we do not want the default jar. -->
+          <execution>
+            <id>default-jar</id>
+            <phase/>
+          </execution>
+          <!-- dstu2 -->
+          <execution>
+            <id>dstu2-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classifier>dstu2</classifier>
+              <includes>
+                <include>**/dstu2/**</include>
+                <include>**/Parameters.class</include>
+                <include>**/ConfigurableBaseUrlPageLinksConfig.class</include>
+              </includes>
+            </configuration>
+          </execution>
+          <!-- stu3 -->
+          <execution>
+            <id>stu3-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classifier>stu3</classifier>
+              <includes>
+                <include>**/stu3/**</include>
+                <include>**/Parameters.class</include>
+                <include>**/ConfigurableBaseUrlPageLinksConfig.class</include>
+              </includes>
+            </configuration>
+          </execution>
+          <!-- r4 -->
+          <execution>
+            <id>r4-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classifier>r4</classifier>
+              <includes>
+                <include>**/r4/**</include>
+                <include>**/Parameters.class</include>
+                <include>**/ConfigurableBaseUrlPageLinksConfig.class</include>
+              </includes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Ignore generated source. -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>**/stu3/**</exclude>
+            <exclude>**/r4/**</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
