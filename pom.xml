@@ -8,7 +8,7 @@
   </parent>
   <groupId>gov.va.api.health.fhir.bundler</groupId>
   <artifactId>health-apis-fhir-bundler-parent</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
     <module>bundler</module>
