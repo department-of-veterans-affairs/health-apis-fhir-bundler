@@ -28,17 +28,14 @@ public class ConfigurableBaseUrlPageLinksConfig implements InitializingBean {
 
   @Override
   public void afterPropertiesSet() throws IllegalArgumentException {
-    Assert.notNull(
+    Assert.hasText(
         bundlerPageLinksBaseUrl,
-        "ConfigurableBaseUrlPageLinksConfig bundlerPageLinksBaseUrl must not be null.");
-    Assert.notNull(
-        bundlerPageLinksBasePath,
-        "ConfigurableBaseUrlPageLinksConfig bundlerPageLinksBasePath must not be null.");
-    pageLinksBase =
-        new StringBuilder(bundlerPageLinksBaseUrl)
-            .append('/')
-            .append(bundlerPageLinksBasePath)
-            .append('/')
-            .toString();
+        "ConfigurableBaseUrlPageLinksConfig bundlerPageLinksBaseUrl must not be null or empty.");
+    StringBuilder pageLinksBaseStringBuilder =
+        new StringBuilder(bundlerPageLinksBaseUrl).append('/');
+    if ((bundlerPageLinksBasePath != null) && !bundlerPageLinksBasePath.isBlank()) {
+      pageLinksBaseStringBuilder.append(bundlerPageLinksBasePath).append('/');
+    }
+    pageLinksBase = pageLinksBaseStringBuilder.toString();
   }
 }
