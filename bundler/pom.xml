@@ -4,11 +4,11 @@
   <parent>
     <groupId>gov.va.api.health.fhir.bundler</groupId>
     <artifactId>health-apis-fhir-bundler-parent</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>health-apis-fhir-bundler</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2-SNAPSHOT</version>
   <packaging>jar</packaging>
   <properties>
     <health-apis-fhir-resources.version>2.0.18</health-apis-fhir-resources.version>
