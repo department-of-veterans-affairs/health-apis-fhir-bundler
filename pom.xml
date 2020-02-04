@@ -10,6 +10,9 @@
   <artifactId>health-apis-fhir-bundler-parent</artifactId>
   <version>1.0.2-SNAPSHOT</version>
   <packaging>pom</packaging>
+  <properties>
+    <git.allowedBranchNames><![CDATA[^(dependabot/.*|master|release/.*|PR-[0-9]+|(.*/)?[A-Z]{2,10}-[0-9]+-.*)$]]></git.allowedBranchNames>
+  </properties>
   <modules>
     <module>bundler</module>
   </modules>
