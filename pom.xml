@@ -4,7 +4,7 @@
   <parent>
     <groupId>gov.va.api.health</groupId>
     <artifactId>health-apis-parent</artifactId>
-    <version>3.1.12</version>
+    <version>7.0.1</version>
   </parent>
   <groupId>gov.va.api.health.fhir.bundler</groupId>
   <artifactId>health-apis-fhir-bundler-parent</artifactId>
@@ -12,6 +12,7 @@
   <packaging>pom</packaging>
   <properties>
     <git.allowedBranchNames><![CDATA[^(dependabot/.*|master|release/.*|PR-[0-9]+|(.*/)?[A-Z]{2,10}-[0-9]+-.*)$]]></git.allowedBranchNames>
+    <error-prone.version>2.4.0</error-prone.version>
   </properties>
   <modules>
     <module>bundler</module>

@@ -35,9 +35,7 @@ public class Bundler {
     bundle.total(context.linkConfig().totalRecords());
     bundle.link(links.create(context.linkConfig()));
     bundle.entry(
-        context
-            .xmlItems()
-            .stream()
+        context.xmlItems().stream()
             .map(context.transformer())
             .map(
                 t -> {
