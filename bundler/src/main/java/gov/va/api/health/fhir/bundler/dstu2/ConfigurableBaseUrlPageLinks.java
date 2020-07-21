@@ -3,11 +3,10 @@ package gov.va.api.health.fhir.bundler.dstu2;
 import gov.va.api.health.dstu2.api.bundle.BundleLink;
 import gov.va.api.health.dstu2.api.bundle.BundleLink.LinkRelation;
 import gov.va.api.health.fhir.bundler.ConfigurableBaseUrlPageLinksConfig;
+import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +25,7 @@ public class ConfigurableBaseUrlPageLinks implements PageLinks {
   @Override
   public List<BundleLink> create(LinkConfig config) {
     LinkContext context = new LinkContext(config);
-    List<BundleLink> links = new LinkedList<>();
+    List<BundleLink> links = new ArrayList<>();
     /*
      * If recordsPerPage = 0, then only return the self link.
      */
@@ -104,7 +103,7 @@ public class ConfigurableBaseUrlPageLinks implements PageLinks {
       msg.append(config.path()).append('?');
       String params =
           mutableParams.entrySet().stream()
-              .sorted(Comparator.comparing(Entry::getKey))
+              .sorted(Comparator.comparing(Map.Entry::getKey))
               .flatMap(this::toKeyValueString)
               .collect(Collectors.joining("&"));
       if (!params.isEmpty()) {
