@@ -11,8 +11,8 @@
   <version>1.0.3-SNAPSHOT</version>
   <packaging>jar</packaging>
   <properties>
-    <health-apis-fhir-resources.version>2.0.31</health-apis-fhir-resources.version>
-    <service-auto-config.version>3.1.12</service-auto-config.version>
+    <health-apis-fhir-resources.version>4.0.0</health-apis-fhir-resources.version>
+    <service-auto-config.version>7.0.1</service-auto-config.version>
     <generated-sources-base>${project.build.directory}/generated-sources</generated-sources-base>
   </properties>
   <dependencies>
