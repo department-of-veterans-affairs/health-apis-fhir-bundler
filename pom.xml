@@ -12,10 +12,6 @@
   <packaging>pom</packaging>
   <properties>
     <git.allowedBranchNames><![CDATA[^(dependabot/.*|master|release/.*|PR-[0-9]+|(.*/)?[A-Z]{2,10}-[0-9]+-.*)$]]></git.allowedBranchNames>
-    <error-prone.version>2.4.0</error-prone.version>
-    <maven.compiler.source>14</maven.compiler.source>
-    <maven.compiler.target>14</maven.compiler.target>
-    <resource.delimiter>@</resource.delimiter>
   </properties>
   <modules>
     <module>bundler</module>
