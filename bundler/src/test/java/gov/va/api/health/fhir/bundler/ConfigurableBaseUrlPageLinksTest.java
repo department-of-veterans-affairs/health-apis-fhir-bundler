@@ -17,12 +17,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(
-  classes = {
-    ConfigurableBaseUrlPageLinksTest.TestConfiguration.class,
-    ConfigurableBaseUrlPageLinks.class
-  },
-  initializers = ConfigFileApplicationContextInitializer.class
-)
+    classes = {
+      ConfigurableBaseUrlPageLinksTest.TestConfiguration.class,
+      ConfigurableBaseUrlPageLinks.class
+    },
+    initializers = ConfigFileApplicationContextInitializer.class)
 public class ConfigurableBaseUrlPageLinksTest {
 
   @Autowired private ConfigurableBaseUrlPageLinks links;
